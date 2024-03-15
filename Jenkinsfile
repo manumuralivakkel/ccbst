@@ -1,19 +1,22 @@
-pipeline {
-    agent any
+def pipeline {
+  agent any
 
-    stages {
-        stage('Build') {
-            steps {
-                git 'https://github.com/manumuralivakkel/ccbst.git'
-                sh 'composer install'
-                sh 'cp .env.example .env'
-                sh 'php artisan key:generate'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './vendor/bin/phpunit'
-            }
-        }
+  stages {
+    stage('Checkout Code') {
+      steps {
+        git branch: 'main', // Update with your branch name
+                url: 'https://github.com/manumuralivakkel/ccbst.git'
+      }
     }
+    stage('Install Dependencies') {
+      steps {
+        sh 'composer install --prefer-dist --no-dev'
+      }
+    }
+    stage('Run Unit Tests') {
+      steps {
+        sh 'vendor/bin/phpunit tests'
+      }
+    }
+  }
 }
