@@ -35,7 +35,7 @@ class EmployeeController extends Controller
         $addEmployee = Employee::add($request);
 
         if ($addEmployee) {
-            return redirect()->route('employees.index')->with('success', 'employee created successfully!');
+            return redirect()->route('employees.index')->with('success', 'Employee created successfully!');
         } else {
             return back()->with('error', 'Something went wrong. Please try after sometime.');
         }
